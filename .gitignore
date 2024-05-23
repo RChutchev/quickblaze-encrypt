@@ -1,18 +1,5 @@
-# Quickblaze Files
-.vscode/
-.stashed/
-.gitattributes
-.dccache
-
-# QuickBlaze Security
-local-storage
-Modules/Database.env
-.config
-
-# QuickBlaze Composer
-vendor/
+.cache
+.logs
 composer.lock
-
-# Docker (Unreleased)
-Dockerfile
-.dockerignore
+vendor
+.php_temp

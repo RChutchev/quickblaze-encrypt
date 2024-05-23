@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon-100x100.png">
     <meta name="description"
         content="An extremely simple, one-time view encrypted message system. Send anybody passwords, or secret messages on a one-time view basis.">
-    <title>Nexshare</title>
+    <title>NexusEncrypt</title>
 
     <!-- Site CSS -->
     <link href="/assets/css/style.css" rel="stylesheet">
@@ -31,10 +31,10 @@
             <form onsubmit="return false;">
                 <div class="page-title-container">
                     <a href="/">
-                        <img class="form-icon fa-fade" id="form-icon" draggable="false" alt="Nexshare"
-                            aria-label="Nexshare" title="Nexshare" src="/assets/img/favicon-100x100.png">
+                        <img class="form-icon fa-fade" id="form-icon" draggable="false" alt="NexusEncrypt"
+                            aria-label="NexusEncrypt" title="NexusEncrypt" src="/assets/img/favicon-100x100.png">
                     </a>
-                    <h2>Nexshare Encrypted Sharing</h2>
+                    <h2>NexusEncrypt</h2>
                 </div>
                 <h5 class="text-muted">One-time view encrypted message sharing system</h5>
 
@@ -44,19 +44,32 @@
                 </div>
 
                 <!-- Main Form Content -->
-                <div id="form_input" class="form-area">
+                <div id="form_submission" class="form-area">
                     <div class="input-container">
-                        <label for="input_text_box">Secret Message</label>
-                        <textarea type="text" class="form-control form-input-item size-max" id="input_text_box"
-                            placeholder="Enter your secret message!" required></textarea>
-                        <label for="input_password">Decryption Password</label>
-                        <input class="form-control form-input-item size-single" id="input_password"
-                            placeholder="Enter decryption password" required></input>
+                        <label for="submission_text_box">Share Link</label>
+                        <textarea type="text" class="form-control form-input-item size-max" id="submission_text_box"
+                            disabled></textarea>
+                        <label for="submission_password">Decryption Password</label>
+                        <input type="text" class="form-control form-input-item size-single" id="submission_password"
+                            disabled></input>
                     </div>
-                    <button type="button" class="btn btn-primary submit-button button-50"
-                        onclick="formValidateDisplay();">
-                        Encrypt Message
-                    </button>
+                    <p class="text-muted">
+                        Share this link and decryption password anywhere on the internet. The message will be
+                        automatically destroyed once viewed.
+                    </p>
+                    <div class="buttons-inline">
+                        <button type="button" class="btn btn-primary submit-button button-50"
+                            onclick="copyToClipboard('submission_text_box', 'snackbar_link')">
+                            Copy Link
+                        </button>
+                        <button type="button" class="btn btn-primary submit-button button-50"
+                            onclick="copyToClipboard('submission_password', 'snackbar_password')">
+                            Copy Password
+                        </button>
+                    </div>
+                    <a class="btn btn-secondary submit-button button-100" href="./">
+                        Create New Message
+                    </a>
                 </div>
 
                 <p class="mt-5 mb-3 text-muted">

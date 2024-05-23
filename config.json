@@ -1,0 +1,20 @@
+{
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "build": 0
+    },
+    "storage": {
+        "type": "filetree",
+        "connection": {
+            "host": "localhost",
+            "username": "username",
+            "password": "password",
+            "port": 3306
+        }
+    },
+    "debugging": {
+        "enabled": true,
+        "source": ".\/errors.log"
+    }
+}
