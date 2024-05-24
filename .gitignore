@@ -8,9 +8,9 @@ vendor
 # Nexshare files
 .env
 errors.log
+debug.log
 config.json
 
 # Workspace files
 .vscode
 *.pdn
-
