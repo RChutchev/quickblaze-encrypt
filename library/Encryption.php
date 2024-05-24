@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Handles encryption and decryption operations for the creation and retrieval of shared content.
+ */
 class Encryption
 {
 

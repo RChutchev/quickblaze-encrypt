@@ -38,25 +38,11 @@
                 </div>
                 <h5 class="text-muted">One-time view encrypted message sharing system</h5>
 
-                <!-- Snackbar -->
-                <div class="alert snackbar-container" id="snackbar-container">
-                    <div id="snackbar"></div>
-                </div>
-
                 <!-- Main Form Content -->
                 <div id="form_input" class="form-area">
-                    <div class="input-container">
-                        <label for="input_text_box">Secret Message</label>
-                        <textarea type="text" class="form-control form-input-item size-max" id="input_text_box"
-                            placeholder="Enter your secret message!" required></textarea>
-                        <label for="input_password">Decryption Password</label>
-                        <input class="form-control form-input-item size-single" id="input_password"
-                            placeholder="Enter decryption password" required></input>
-                    </div>
-                    <button type="button" class="btn btn-primary submit-button button-50"
-                        onclick="formValidateDisplay();">
-                        Encrypt Message
-                    </button>
+                    <br>
+                    <h3>Error!</h3>
+                    <span>{{error_identifier}}</span>
                 </div>
 
                 <p class="mt-5 mb-3 text-muted">
@@ -67,43 +53,12 @@
                     •
                     <a href="https://github.com/arizon-dev/quickblaze-encrypt/releases"
                         class="text-muted no-decoration">
-                        {{version}}
+                        {{version_label}}
                     </a>
                 </p>
 
             </form>
 
-        </div>
-    </div>
-
-    <!-- Snackbar Notifications -->
-    <div class="snackbar-messages">
-        <div id="snackbar_link">
-            <span class="snackbar-text" id="snackbar-text">
-                <i class="fa-solid fa-check mr-5"></i>
-                Link has been copied to clipboard!
-            </span>
-        </div>
-
-        <div id="snackbar_password">
-            <span class="snackbar-text" id="snackbar-text">
-                <i class="fa-solid fa-check mr-5"></i>
-                Password has been copied to clipboard!
-            </span>
-        </div>
-
-        <div id="snackbar_empty_fields">
-            <span class="snackbar-text" id="snackbar-text">
-                <i class="fa-solid fa-xmark mr-5"></i>
-                Error! One or more fields are empty!
-            </span>
-        </div>
-
-        <div id="snackbar_error">
-            <span class="snackbar-text" id="snackbar-text">
-                <i class="fa-solid fa-xmark mr-5"></i>
-                Error! An error occurred processing your message!
-            </span>
         </div>
     </div>
 

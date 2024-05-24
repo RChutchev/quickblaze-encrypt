@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Handles system configuration operations such as validation, replacing, updating, reseting, etc.
+ */
 class Configuration
 {
 
@@ -9,7 +12,7 @@ class Configuration
      */
     function Check()
     {
-        // Debug log class to log changes made  
+        // Import library classes
         $logger = new Logging;
 
         // Check if config file exists
@@ -55,24 +58,6 @@ class Configuration
         if (is_null($config["storage"]["type"])) {
             $this->Reset("storage", "type");
         }
-        if (is_null($config["storage"]["connection"])) {
-            $this->Reset("storage", "connection");
-        }
-        if (is_null($config["storage"]["connection"]["host"])) {
-            $this->Reset("storage", "connection", "host");
-        }
-        if (is_null($config["storage"]["connection"]["username"])) {
-            $this->Reset("storage", "connection", "username");
-        }
-        if (is_null($config["storage"]["connection"]["password"])) {
-            $this->Reset("storage", "connection", "password");
-        }
-        if (is_null($config["storage"]["connection"]["host"])) {
-            $this->Reset("storage", "connection", "host");
-        }
-        if (is_null($config["storage"]["connection"]["port"])) {
-            $this->Reset("storage", "connection", "port");
-        }
 
         // Check if debug mode data is present
         if (is_null($config["debugging"]["enabled"]) || is_null($config["debugging"]["source"])) {
@@ -80,7 +65,7 @@ class Configuration
         }
 
         // Check if error staus data is present
-        if (is_null($config["error"]["source"]) || is_null($config["error"]["enabled"])) {
+        if (is_null($config["error"]["source"])) {
             $this->Reset("error");
         }
 
@@ -123,7 +108,7 @@ class Configuration
      */
     function Replace($keyData, $newData)
     {
-        // Debug log class to log changes made  
+        // Import library classes
         $logger = new Logging;
 
         // Get configuration file
@@ -160,7 +145,7 @@ class Configuration
      */
     function Reset($keyX = null, $keyY = null, $keyZ = null)
     {
-        // Logging class to debug log changes made  
+        // Import library classes
         $logger = new Logging;
 
         // Get environment variables
@@ -174,14 +159,7 @@ class Configuration
                 "build" => 0,
             ),
             "storage" => array(
-                "type" => "filetree",
-                "connection" => array(
-                    "host" => $env["MYSQL_HOST"],
-                    "username" => $env["MYSQL_USERNAME"],
-                    "password" => $env["MYSQL_PASSWORD"],
-                    "database" => $env["MYSQL_DATABASE"],
-                    "port" => $env["MYSQL_PORT"]
-                )
+                "type" => "local"
             ),
             "debugging" => array(
                 "enabled" => true,

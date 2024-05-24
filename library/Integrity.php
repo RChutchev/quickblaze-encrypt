@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Verifies the integrity of the system, checking the presence of important directories and files. Also checks the system's configured storage method to ensure it is correctly configured
+ */
 class Integrity
 {
     /**
@@ -8,7 +11,8 @@ class Integrity
      */
     function SystemCheck()
     {
-        // Logging class
+        // Import library classes
+        $config = new Configuration;
         $logger = new Logging;
 
         // Check if assets directory exists
@@ -35,8 +39,12 @@ class Integrity
             return false;
         }
 
+        // Reset error status
+        if ($config->Fetch("error", "enabled")) {
+            $config->Replace(array("error", "enabled"), false);
+        }
+
         // Return true if all directories and files are present
-        $logger->ResetErrorStatus();
         return true;
     }
 

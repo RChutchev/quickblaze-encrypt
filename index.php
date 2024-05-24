@@ -14,15 +14,13 @@
  */
 
 // Disable error messages
-// error_reporting(0);
+error_reporting(0);
 
 // Import library classes
 include './library/Configuration.php';
 include './library/Integrity.php';
-
-// Import utility classes
+include './library/Renderer.php';
 include './library/Logging.php';
-include './library/ErrorManager.php';
 
 // Configuration checking
 $configuration = new Configuration;
@@ -33,8 +31,6 @@ $integrity = new Integrity;
 $integrity->SystemCheck();
 // $integrity->StorageCheck();
 
-// Variable parser
-
 // File render
-// if error status is enabled, render error page
-require ("./public/index.php");
+$renderer = new Renderer;
+$renderer->Render("index.php");

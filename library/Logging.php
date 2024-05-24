@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Handles system logging operations, including error and debug logs. Saves logs and log information to local files.
+ */
 class Logging
 {
     /**
@@ -10,8 +13,10 @@ class Logging
      */
     function Log($type, $data, $updateStatus = false)
     {
-        // Fetch debug mode configuration
+        // Import library classes
         $config = new Configuration;
+
+        // Fetch debug mode configuration
         ($type == "debug") ? $logFile = $config->Fetch("debugging", "source") : $logFile = $config->Fetch("error", "source");
 
         // Check if debug mode is enabled, if the log type is debug
@@ -62,8 +67,8 @@ class Logging
         );
 
         // Check if log message exists
-        if (is_null($logMessages[$identifier])) {
-            return "Error";
+        if (!array_key_exists($identifier, $logMessages)) {
+            return "An internal server error occurred";
         }
 
         // Return identified log message
@@ -76,7 +81,7 @@ class Logging
      */
     function CheckError()
     {
-        // Fetch configuration file
+        // Import library classes
         $config = new Configuration;
 
         // Determine if system is in an error state
@@ -86,22 +91,5 @@ class Logging
             return false;
         }
 
-    }
-
-    /**
-     * Resets the error status in the system configuration file.
-     * @return boolean
-     */
-    function ResetErrorStatus()
-    {
-        // Fetch configuration file
-        $config = new Configuration;
-
-        // Determine if system is in an error state
-        if ($config->Fetch("error", "enabled")) {
-            $config->Replace(array("error", "enabled"), false);
-        }
-
-        return true;
     }
 }

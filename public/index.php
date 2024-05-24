@@ -67,7 +67,7 @@
                     •
                     <a href="https://github.com/arizon-dev/quickblaze-encrypt/releases"
                         class="text-muted no-decoration">
-                        {{version.label}}
+                        {{version}}
                     </a>
                 </p>
 
