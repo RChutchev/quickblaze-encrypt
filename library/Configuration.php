@@ -7,10 +7,10 @@ class Configuration
      * Validates the system configuration and returns a boolean output on success or failure.
      * @return boolean
      */
-    function CheckConfig()
+    function Check()
     {
         // Debug log class to log changes made  
-        $debug = new DebugLogging;
+        $logger = new Logging;
 
         // Check if config file exists
         if (!file_exists('./config.json')) {
@@ -19,7 +19,7 @@ class Configuration
             touch("./config.json");
 
             // Replace new configuration with default config values
-            $this->Replace();
+            $this->Reset();
 
             // Return true, as new configuration is valid
             return true;
@@ -40,43 +40,48 @@ class Configuration
         $env = parse_ini_file('./.env');
         if (is_null($env["MYSQL_HOST"]) || is_null($env["MYSQL_USERNAME"]) || is_null($env["MYSQL_PASSWORD"]) || is_null($env["MYSQL_DATABASE"]) || is_null($env["MYSQL_PORT"])) {
             file_put_contents('./.env', "MYSQL_HOST=\nMYSQL_USERNAME=\nMYSQL_PASSWORD=\nMYSQL_DATABASE=\nMYSQL_PORT=");
-            $debug->log($_SERVER["PHP_SELF"], "updatedEnvironmentConfiguration");
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "updatedEnvironmentConfiguration"));
         }
 
         // Check if version data is present
         if (is_null($config["version"]["major"]) || is_null($config["version"]["minor"])) {
-            $this->Replace("version");
+            $this->Reset("version");
         }
 
         // Check if storage data is present
         if (is_null($config["storage"])) {
-            $this->Replace("storage");
+            $this->Reset("storage");
         }
         if (is_null($config["storage"]["type"])) {
-            $this->Replace("storage", "type");
+            $this->Reset("storage", "type");
         }
         if (is_null($config["storage"]["connection"])) {
-            $this->Replace("storage", "connection");
+            $this->Reset("storage", "connection");
         }
         if (is_null($config["storage"]["connection"]["host"])) {
-            $this->Replace("storage", "connection", "host");
+            $this->Reset("storage", "connection", "host");
         }
         if (is_null($config["storage"]["connection"]["username"])) {
-            $this->Replace("storage", "connection", "username");
+            $this->Reset("storage", "connection", "username");
         }
         if (is_null($config["storage"]["connection"]["password"])) {
-            $this->Replace("storage", "connection", "password");
+            $this->Reset("storage", "connection", "password");
         }
         if (is_null($config["storage"]["connection"]["host"])) {
-            $this->Replace("storage", "connection", "host");
+            $this->Reset("storage", "connection", "host");
         }
         if (is_null($config["storage"]["connection"]["port"])) {
-            $this->Replace("storage", "connection", "port");
+            $this->Reset("storage", "connection", "port");
         }
 
         // Check if debug mode data is present
         if (is_null($config["debugging"]["enabled"]) || is_null($config["debugging"]["source"])) {
-            $this->Replace("debugging");
+            $this->Reset("debugging");
+        }
+
+        // Check if error staus data is present
+        if (is_null($config["error"]["source"]) || is_null($config["error"]["enabled"])) {
+            $this->Reset("error");
         }
 
         // Return response output
@@ -85,7 +90,7 @@ class Configuration
 
     /**
      * Returns requested JSON value from system configuration.
-     * @return mixed
+     * @return string|boolean|object|integer|null
      * @param string $keyX The configuration key to fetch
      * @param string $keyY The nested configuration key of $keyX to fetch
      * @param string $keyZ The nested configuration key of $keyY to fetch
@@ -96,32 +101,67 @@ class Configuration
         $configuration = file_get_contents('./config.json');
 
         // Decode configuration file
-        $data = json_decode($configuration, true);
+        $configuration = json_decode($configuration, true);
 
         // Return requested data
         if (!$keyX && !$keyY && !$keyZ) {
             return null;
         } else if ($keyX && $keyY && $keyZ) {
-            return $data[$keyX][$keyY][$keyZ];
+            return $configuration[$keyX][$keyY][$keyZ];
         } else if ($keyX && $keyY) {
-            return $data[$keyX][$keyY];
+            return $configuration[$keyX][$keyY];
         } else if ($keyX) {
-            return $data[$keyX];
+            return $configuration[$keyX];
         }
-
     }
 
     /**
-     * Replaces specific values of the system configuration. Replaces entire configuration with default values, if no keys to update are specified.
+     * Updates specified configuration values.
+     * @return void
+     * @param array $keyData The configuration key to update
+     * @param mixed $newData The data to set in place of $keyData
+     */
+    function Replace($keyData, $newData)
+    {
+        // Debug log class to log changes made  
+        $logger = new Logging;
+
+        // Get configuration file
+        $configuration = file_get_contents('./config.json');
+
+        // Decode configuration file
+        $configuration = json_decode($configuration, true);
+
+        // Determine which configuration values to update
+        if ($keyData[0] && $keyData[1] && $keyData[2]) {
+            $configuration[$$keyData[0]][$keyData[1]][$keyData[2]] = $newData;
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => $keyData[0] . " => " . $keyData[1] . " => " . $keyData[2]));
+        } else if ($keyData[0] && $keyData[1]) {
+            $configuration[$keyData[0]][$keyData[1]] = $newData;
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => $keyData[0] . " => " . $keyData[1]));
+        } else if ($keyData[0]) {
+            $configuration[$keyData[0]] = $newData;
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => $keyData[0]));
+        }
+
+        // Encode new JSON
+        $configuration = json_encode($configuration);
+
+        // Update configuration file with new JSON
+        file_put_contents('./config.json', $configuration);
+    }
+
+    /**
+     * Resets specific values of the system configuration to default values. Resets entire configuration if no keys are specified.
      * @return void
      * @param string $keyX The configuration item to update
      * @param string $keyY The nested configuration key of $keyX to update
      * @param string $keyZ The nested configuration key of $keyY to update
      */
-    function Replace($keyX = null, $keyY = null, $keyZ = null)
+    function Reset($keyX = null, $keyY = null, $keyZ = null)
     {
-        // Debug log class to log changes made  
-        $debug = new DebugLogging;
+        // Logging class to debug log changes made  
+        $logger = new Logging;
 
         // Get environment variables
         $env = parse_ini_file('./.env');
@@ -145,7 +185,12 @@ class Configuration
             ),
             "debugging" => array(
                 "enabled" => true,
-                "source" => "./errors.log"
+                "source" => "./debug.log"
+            ),
+            "error" => array(
+                "source" => "./errors.log",
+                "enabled" => false,
+                "identifier" => ""
             ),
         );
 
@@ -153,28 +198,28 @@ class Configuration
         $configuration = file_get_contents('./config.json');
 
         // Decode configuration file
-        $data = json_decode($configuration, true);
+        $configuration = json_decode($configuration, true);
 
         // Determine if the entire configuration should be replaced
         if (!$keyX && !$keyY && !$keyZ) {
-            $data = $blueprint;
-            $debug->log($_SERVER["PHP_SELF"], "replacedConfigKey", "{}");
+            $configuration = $blueprint;
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => "{}"));
         }
 
         // Determine which specific keys should be replaced
-        if ($keyX) {
-            $data[$keyX] = $blueprint[$keyX];
-            $debug->log($_SERVER["PHP_SELF"], "replacedConfigKey", "$keyX");
+        if ($keyX && $keyY && $keyX) {
+            $configuration[$keyX][$keyY][$keyZ] = $blueprint[$keyX][$keyY][$keyZ];
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => "$keyX => $keyY => $keyZ"));
         } else if ($keyX && $keyY) {
-            $data[$keyX][$keyY] = $blueprint[$keyX][$keyY];
-            $debug->log($_SERVER["PHP_SELF"], "replacedConfigKey", "$keyX => $keyY");
-        } else if ($keyX && $keyY && $keyX) {
-            $data[$keyX][$keyY][$keyZ] = $blueprint[$keyX][$keyY][$keyZ];
-            $debug->log($_SERVER["PHP_SELF"], "replacedConfigKey", "$keyX => $keyY => $keyZ");
+            $configuration[$keyX][$keyY] = $blueprint[$keyX][$keyY];
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => "$keyX => $keyY"));
+        } else if ($keyX) {
+            $configuration[$keyX] = $blueprint[$keyX];
+            $logger->log("debug", array("source" => $_SERVER["PHP_SELF"], "identifier" => "replacedConfigKey", "detail" => "$keyX"));
         }
 
         // Encode new JSON
-        $configuration = json_encode($data);
+        $configuration = json_encode($configuration);
 
         // Update configuration file with new JSON
         file_put_contents('./config.json', $configuration);

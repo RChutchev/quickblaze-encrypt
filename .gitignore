@@ -1,5 +1,16 @@
+# PHP files
 .cache
 .logs
 composer.lock
 vendor
 .php_temp
+
+# Nexshare files
+.env
+config.json
+errors.log
+debug.log
+
+# Workspace files
+.vscode
+*.pdn

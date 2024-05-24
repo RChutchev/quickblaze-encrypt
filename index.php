@@ -17,21 +17,24 @@
 // error_reporting(0);
 
 // Import library classes
-include './lib/Configuration.php';
-include './lib/DebugLogging.php';
-include './lib/Integrity.php';
+include './library/Configuration.php';
+include './library/Integrity.php';
 
-// Config checking
-$config = new Configuration;
-$config = $config->CheckConfig();
+// Import utility classes
+include './library/Logging.php';
+include './library/ErrorManager.php';
 
-// File integrity checking
+// Configuration checking
+$configuration = new Configuration;
+$configuration->Check();
+
+// File & storage integrity checking
 $integrity = new Integrity;
-$integrity = $integrity->Check();
-
-// Storage integrity checking
+$integrity->SystemCheck();
+// $integrity->StorageCheck();
 
 // Variable parser
 
 // File render
+// if error status is enabled, render error page
 require ("./public/index.php");

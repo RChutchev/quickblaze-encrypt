@@ -7,14 +7,21 @@
     "storage": {
         "type": "filetree",
         "connection": {
-            "host": "localhost",
-            "username": "username",
-            "password": "password",
-            "port": 3306
+            "host": "",
+            "username": "",
+            "password": "",
+            "database": "",
+            "port": "",
+            "": null
         }
     },
     "debugging": {
         "enabled": true,
-        "source": ".\/errors.log"
+        "source": ".\/debug.log"
+    },
+    "error": {
+        "source": ".\/errors.log",
+        "enabled": false,
+        "identifier": ""
     }
 }

@@ -1,14 +1,14 @@
-- [ ] Create configuration
-    - [ ] System-wide validation
-    - [ ] System-wide fetching
+- [x] Create configuration
+    - [x] System-wide validation
+    - [x] System-wide fetching
 
-- [ ] File integrity checking
-    - [ ] Upstream source comparison
-    - [ ] File presence validation
+- [x] Structure integrity checking
+    - [x] File presence validation
+    - [x] Folder presence validation
 
 - [ ] Storage integrity checking
     - [ ] Validate MySQL/Filetree source structure
-    - [ ] Validate source data presence
+    - [ ] Validate source data presence (table records)
 
 - [ ] Variable parser
     - [ ] Replace file contents with variables from config
