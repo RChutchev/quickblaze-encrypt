@@ -14,10 +14,10 @@ name: Snyk Infrastructure as Code
 
 on:
   push:
-    branches: [ main ]
+    branches: [ nexshare ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main ]
+    branches: [ nexshare ]
   schedule:
     - cron: '35 8 * * 1'
 
@@ -50,4 +50,4 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: .security-scan
+          sarif_file: .github/.security-scan

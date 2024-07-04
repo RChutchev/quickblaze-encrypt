@@ -1,0 +1,29 @@
+:root {
+    --content-margin: 30vw;
+    --input-padding: .5rem;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.pageWrapper {
+    width: 100%;
+    margin-left: var(--content-margin);
+    margin-right: var(--content-margin);
+    /* outline: rgba(0, 0, 0, 0.281) 1px dashed; */
+    /* border-radius: 10px; */
+}

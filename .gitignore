@@ -6,11 +6,13 @@ vendor
 .php_temp
 
 # Nexshare files
+.cache/
+db/
+local-storage/
+*.log
+*.sqlite
 .env
-errors.log
-debug.log
 config.json
 
 # Workspace files
 .vscode
-*.pdn

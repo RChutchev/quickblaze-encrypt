@@ -1,17 +1,12 @@
-- [x] Create configuration
-    - [x] System-wide validation
-    - [x] System-wide fetching
-
-- [x] Structure integrity checking
-    - [x] File presence validation
-    - [x] Folder presence validation
 
 - [ ] Storage integrity checking
     - [ ] Validate MySQL/Filetree source structure
     - [ ] Validate source data presence (table records)
 
-- [ ] Variable parser
-    - [ ] Replace file contents with variables from config
-
-- [ ] File render
-    - [ ] Render files from variable parser
+- [ ] Form upload
+    - [ ] StorageHandler: Encrypt incoming insertion data
+    - [ ] API: Validate form data
+    - [ ] API: Encrypt file contents
+    - [ ] API: Move files from temporary storage to permanent
+    - [ ] API: Obfuscate file names
+    - [ ] API: Log upload group with relevant files to storage method

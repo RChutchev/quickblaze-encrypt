@@ -2,7 +2,12 @@
 Options -Indexes
 
 # block files which needs to be hidden, specify .example extension of the file
-<Files ~ "\.(env|json|md|gitignore|gitattributes|lock|log)$">
+<Files ~ "\.(env|json|md|gitignore|gitattributes|lock|log|dat|sqlite)$">
     Order allow,deny
     Deny from all
 </Files>
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ /index.php [L,QSA]

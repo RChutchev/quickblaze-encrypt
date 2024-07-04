@@ -44,9 +44,10 @@
     }
 }
 
+/* Attributes */
 [data-theme="dark"] {
-    background-color: #111 !important;
-    color: #eee;
+    background-color: #313338 !important;
+        color: #eee !important;
 }
 
 [data-theme="dark"] input,
